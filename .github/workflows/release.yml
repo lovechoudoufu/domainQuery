@@ -23,17 +23,24 @@ jobs:
 
     - name: Build project
       run: |
-        make build-all # 假设您的Makefile中有build-all命令
+        make build-all
+        ls -R release/  # 列出 release 目录内容，用于调试
+
+    - name: Generate release tag
+      id: tag
+      run: |
+        echo "release_tag=release_$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_OUTPUT
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
+      if: success()
       with:
         files: |
-          ./release/windows-amd64/domainQuery_${{ github.sha }}.exe
-          ./release/linux-amd64/domainQuery_${{ github.sha }}
-          ./release/darwin-amd64/domainQuery_${{ github.sha }}
-        tag_name: ${{ github.sha }}
-        name: Release ${{ github.sha }}
+          release/windows-amd64/domainQuery.exe
+          release/linux-amd64/domainQuery
+          release/darwin-amd64/domainQuery
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        name: Release ${{ steps.tag.outputs.release_tag }}
         draft: false
         prerelease: false
       env:
