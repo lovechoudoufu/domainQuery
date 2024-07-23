@@ -40,23 +40,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release/windows-amd64/domainQuery.exe
+        asset_path: ./release/windows-amd64/domainQuery_${{ github.sha }}.exe
         asset_name: domainQuery_windows_amd64.exe
         asset_content_type: application/octet-stream
 
     - name: Upload Release Assets (Linux)
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release/linux-amd64/domainQuery
-        asset_name: domainQuery_linux_amd64
-        asset_content_type: application/octet-stream
-
-    - name: Upload Release Assets (macOS)
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_
+        GITHUB_TOKEN: $
