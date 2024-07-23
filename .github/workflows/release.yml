@@ -1,0 +1,62 @@
+name: Build and Release domainQuery
+
+on:
+  push:
+    branches:
+      - '*'  # 触发所有分支的推送
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.22 # 使用适合您项目的Go版本
+
+    - name: Build project
+      run: |
+        make build-all # 假设您的Makefile中有build-all命令
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.sha }}
+        release_name: Release ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Assets (Windows)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/windows-amd64/domainQuery.exe
+        asset_name: domainQuery_windows_amd64.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Assets (Linux)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/linux-amd64/domainQuery
+        asset_name: domainQuery_linux_amd64
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Assets (macOS)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_
