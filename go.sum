@@ -1,0 +1,4 @@
+github.com/xiaoqidun/qqwry v0.0.0-20240620014500-698a12cf0369 h1:And7fKXsLLCbk7kbFQfZSz5FEnMdVGGq/0dMEUUDDGY=
+github.com/xiaoqidun/qqwry v0.0.0-20240620014500-698a12cf0369/go.mod h1:D6kHEKh0AQ50UNLohjumNc+b+33Zx3lEMddsP4HbL9Q=
+golang.org/x/text v0.16.0 h1:a94ExnEXNtEwYLGJSIUxnWoxoRz/ZcCsV63ROupILh4=
+golang.org/x/text v0.16.0/go.mod h1:GhwF1Be+LQoKShO3cGOHzqOgRrGaYc9AvblQOmPVHnI=
