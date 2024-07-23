@@ -17,12 +17,6 @@
 git clone https://github.com/your_username/domainQuery.git
 cd domainQuery
 ```
-**安装依赖**
-确保你已经安装了Go语言环境，然后运行：
-
-```
-go mod tidy
-```
 **编译**
 
 确保你已经安装了make环境，然后运行：
@@ -31,7 +25,7 @@ go mod tidy
 make
 ```
 
-编译好的文件保存在：./release/目录中。
+编译好的文件保存在：`./release/`目录中。
 
 ## 使用
 
