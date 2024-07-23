@@ -9,42 +9,32 @@ jobs:
   build:
     name: Build and Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v4
       with:
-        go-version: 1.22 # 使用适合您项目的Go版本
+        go-version: 1.22
 
     - name: Build project
       run: |
         make build-all # 假设您的Makefile中有build-all命令
 
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
+        files: |
+          ./release/windows-amd64/domainQuery_${{ github.sha }}.exe
+          ./release/linux-amd64/domainQuery_${{ github.sha }}
+          ./release/darwin-amd64/domainQuery_${{ github.sha }}
         tag_name: ${{ github.sha }}
-        release_name: Release ${{ github.sha }}
+        name: Release ${{ github.sha }}
         draft: false
         prerelease: false
-
-    - name: Upload Release Assets (Windows)
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release/windows-amd64/domainQuery_${{ github.sha }}.exe
-        asset_name: domainQuery_windows_amd64.exe
-        asset_content_type: application/octet-stream
-
-    - name: Upload Release Assets (Linux)
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: $
